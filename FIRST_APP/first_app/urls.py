@@ -24,4 +24,5 @@ urlpatterns = [
     path('lotto/', views.lotto),
     path('cube/<int:num>/', views.cube),
     path('match/', views.match),
+    path('ssafy/', views.ssafy),
 ]

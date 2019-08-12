@@ -50,3 +50,7 @@ def match(request):
         'test': test,
     }
     return render(request, 'match.html', context)
+
+
+def ssafy(request):
+    return '안녕하세요 SSAFY 교육생입니다.'

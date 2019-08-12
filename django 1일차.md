@@ -83,7 +83,7 @@
 
   - 폴더구조는 대문자로 만들고, 동일한 이름의 프로젝트 폴더을 소문자로 작성한다.
 
-  - Git Bash에서 가상환경 켜고(venv), 대문자 폴더(FIRST_APP) 만들고, 그 폴더에 들어가서 폴더 이름과 같은 것을 소문자로 작성한다 `django-admin startproject [first_app][경로]`
+  - Git Bash에서 가상환경 켜고(venv), 대문자 폴더(FIRST_APP) 만들고, 폴더 이름과 같은 것을 소문자로 작성한다 `django-admin startproject [first_app][FIRST_APP]`
 
   - `python manage.py runserver`하고 localhost:8000 들어가서 장고로켓이 보이면 된 것!
 
@@ -94,7 +94,7 @@
   - `urls.py`: 가장 많이 쓰게 될 것. 첫 번째 앱을 만들고 url 설정을 할 때...(앞에서 설명한 `문지기` 역할의 파일)
 
     ```python
-    @app.route(url) ==> url.py가 대신 역할을 하게 됨ㄴ
+    @app.route(url) ==> url.py가 대신 역할을 하게 된다.
     def index():
     ```
 
@@ -106,7 +106,7 @@
   -app2: 회원 관리
   -app3: 영화 평점
 
-- `python manage.py startapp [앱 이름 pages]`: 간단힌 싱글페이지들이 묶여있는 app
+- `python manage.py startapp [앱 이름 pages]`: 간단한 싱글페이지들이 묶여있는 app
 
   - `__init__`: 페이지 관리 지점 정의
   - `model.py`: MTV 중 Model을 담당하는 곳
