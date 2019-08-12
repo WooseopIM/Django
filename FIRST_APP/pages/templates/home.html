@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Django</title>
+</head>
+
+<body>
+
+  <h1> DTL(Django Template Language) 관련 문법 </h1>
+  <ul>
+    <li>for</li>
+    <li>if</li>
+    <li>helper</li>
+    <li></li>
+  </ul>
+
+  <h2>데이터를 넘겨받는 법</h2>
+  <p> {{ name }}</p>
+  {% for item in data %}
+  <p>{{item}}</p>
+
+  {% endfor %}
+
+
+  <h2>for문 활용법</h2>
+  <!-- <h2>데이터가 없을 때</h2> -->
+  {% for movie in empty_data %}
+    <p>{{ forloop.counter }} : {{ movie }}</p>
+  {% empty %}
+  <p>영화 데이터가 없습니다.</p>
+
+  {% endfor %}
+
+
+  <h2>이중 for문</h2>
+  {% for array in matrix %}
+    {% for num in array %}
+      <p>{{ num }}</p>
+    {% endfor %}
+  {% endfor %}
+
+  <h2>다양한 helper / filter</h2>
+  <h3>helper</h3>
+  <!--Displays random “lorem ipsum” Latin text. This is useful for providing sample data in templates.-->
+  {% lorem 3 p random %}
+
+  <h3>filter</h3>
+  {% for movie in empty_data %}
+    {{ movie|length }}
+    <!-- movie에 들어간 영화 제목의 길이를 출력-->
+    {{ movie|truncatechars:3 }}
+    <!-- movie에 들어간 영화 제목의 길이를 3(세자리)까지만 표시-->
+  {% endfor %}
+
+  <h4>int</h4>
+  {{ number|add:90 }}
+
+  <h4>datetime</h4>
+  {% now 'Y년 M월 m월 d일 h시 i분 a day' %}
+
+
+</body>
+
+</html>

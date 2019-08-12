@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .numbers2 {
+      margin-left: 32px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: aqua;
+      text-align: center;
+      line-height: 50px;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .box {
+      display: flex;
+      justify-content: start;
+    }
+
+    .ball {
+      margin: 10px;
+      height: 90px;
+      width: 90px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+    }
+
+    .b1 {
+      border: 1px solid gold;
+      background-color: gold;
+    }
+
+    .b2 {
+      border: 1px solid orangered;
+      background-color: orangered;
+    }
+
+    .b3 {
+      border: 1px solid cornflowerblue;
+      background-color: cornflowerblue;
+    }
+
+    .b4 {
+      border: 1px solid seagreen;
+      background-color: seagreen;
+    }
+
+    .b5 {
+      border: 1px solid yellowgreen;
+      background-color: yellowgreen;
+    }
+
+    .numbers {
+      line-height: 90px;
+      color: white;
+      font-size: x-large;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>이번주 토요일엔 로또 당첨돼서 <span style="color:red">싸피</span> 탈주 하즈아~</h1>
+
+  <div class="box">
+    {% for number in lotto %}
+    {% if number > 40 %}
+    <div class="ball b5">
+      <p class="numbers">{{ number }}</p>
+    </div>
+    {% elif number > 30 %}
+    <div class="ball b4">
+      <p class="numbers">{{ number }}</p>
+    </div>
+    {% elif number > 20 %}
+    <div class="ball b3">
+      <p class="numbers">{{ number }}</p>
+    </div>
+    {% elif number > 10 %}
+    <div class="ball b2">
+      <p class="numbers">{{ number }}</p>
+    </div>
+    {% else %}
+    <div class="ball b1">
+      <p class="numbers">{{ number }}</p>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+
+
+  <h1>{{ lotto }}</h1>
+
+  <p>[</p>
+  {% for number in lotto %}
+  <p class="numbers2">{{ number }}</p>
+  {% endfor %}
+  <p>]</p>
+
+  <h1>DTL 조건문</h1>
+  {% if number > 0 %}
+  <p>이건 0보다 큰 숫자야</p>
+  {% endif %}
+
+</body>
+
+</html>
