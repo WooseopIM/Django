@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% block body %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Django</title>
-</head>
-
-<body>
-
-  <h1> DTL(Django Template Language) 관련 문법 </h1>
+<h1> DTL(Django Template Language) 관련 문법 </h1>
   <ul>
     <li>for</li>
     <li>if</li>
@@ -62,7 +53,4 @@
   <h4>datetime</h4>
   {% now 'Y년 M월 m월 d일 h시 i분 a day' %}
 
-
-</body>
-
-</html>
+{% endblock %}
