@@ -206,11 +206,11 @@
 
 - 한 단계 더 나가보면?
 
-- footer랑 nav의 템플릿들도 만들어볼 수 있다. partial template
+- footer랑 nav의 템플릿들도 만들어볼 수 있다. `partial template`
 
 - templates 폴더에 _footer.html과 _nav.html을 만들어주자.
 
-- 그러면 _nav.html과 _footer.html을 불러오려면 {% extends %}로 될까?
+- 그러면 `_nav.html`과 `_footer.html`을 불러오려면 {% extends %}로 될까?
 
 - 안된다
 
@@ -283,6 +283,10 @@
 
   - FIRST_APP 프로젝트의 first_app 폴더 안의 settings.py에서 TEMPLATES 부분을 다음과 같이 수정하자.
 
+  - `TEMPLATES` 딕셔너리의 `DIRS` key에 `[os.path.join(BASE_DIR, 'first_app','templates')]` 리스트 추가
+  
+  - 무슨 뜻인지는 나중에 이해하기.
+  
     ```python
     import os
     
@@ -301,36 +305,36 @@
                     'django.contrib.auth.context_processors.auth',
                     'django.contrib.messages.context_processors.messages',
                 ],
-            },
+          },
         },
-    ]
+  ]
     ```
 
     
-
-  - 사용자의 input을 받아 
-
-    - /artii/
+  
+- 사용자의 input을 받아 
+  
+  - /artii/
     - (추가) 폰트 선택 창을 만들어보자.
 
   - artii API를 통해 ascii art를 보여주는 앱
 
     - /artii/result/
-
+  
   - Git Bash에서 `pip install requests` 해주기. (지금 venv 가상환경에서 작업 중이라 이전에 깔았던 requests는 3.5버전에서만 존재하고 있기 때문.)
 
     ```bash
-    $ pip install requests
+  $ pip install requests
     ```
-
+  
     새로운 artii 프로젝트 앱을 만들자
 
     ```bash
-    $ python manage.py startapp artii
+  $ python manage.py startapp artii
     ```
-
+  
   - /first_app/settings.py의 INSTALLED_APPS 에서 새로 만든 앱 이름을 추가해 주자
-
+  
     ```python
     INSTALLED_APPS = [
         'artii',    # 오늘 만들 artii 앱
@@ -339,13 +343,13 @@
         'django.contrib.auth',
         'django.contrib.contenttypes',
         'django.contrib.sessions',
-        'django.contrib.messages',
+      'django.contrib.messages',
         'django.contrib.staticfiles',
-    ]
+  ]
     ```
-
+  
   - `urls.py`에서 새로운 경로를 지정해주자
-
+  
     ```python
     from django.contrib import admin
     from django.urls import path
@@ -361,22 +365,22 @@
         path('lotto/', views.lotto),
         path('cube/<int:num>/', views.cube),
         path('match/', views.match),
-        path('ssafy/', views.ssafy),
+      path('ssafy/', views.ssafy),
         path('artii/', artii_views.artii),    # 사용자의 입력을 받을 곳
-    ]
+  ]
     ```
-
+  
   - `views.py`에서 함수를 만들어주자.
-
+  
     ```python
-    # 사용자의 입력을 받을 /artii/ 링크를 만들어준다.
+  # 사용자의 입력을 받을 /artii/ 링크를 만들어준다.
     def artii(request):
         return render(request, 'artii.html')
-    ```
-
+  ```
+  
     `artii.html`에서는 사용자가 입력할 공간을 form 태그를 통해서 만들어준다.
     사용자가 입력을 마치고 제출을 누르면 `/artii/result/`로 가게 해준다.
-
+  
     ```html
     <!DOCTYPE html>
     <html lang="en">
@@ -389,13 +393,13 @@
     <body>
       <form action="/artii/result/">
         <input type="text" name="string"><button type="submit">제출</button>
-      </form>
+    </form>
     </body>
-    </html>
+  </html>
     ```
-
+  
   - 다시 `urls.py`에서 경로를 지정해주자
-
+  
     ```python
     from django.contrib import admin
     from django.urls import path
@@ -403,13 +407,13 @@
     from artii import views as artii_views
     
     urlpatterns = [
-        path('artii/', artii_views.artii),    # 사용자의 입력을 받을 곳
+      path('artii/', artii_views.artii),    # 사용자의 입력을 받을 곳
         path('artii/result/', artii_views.artii_result), # 사용자가 입력한 것의 결과물을 보여주는 곳
-    ]
+  ]
     ```
-
+  
   - `views.py`
-
+  
     ```python
     def artii_result(request):
         import requests
@@ -417,13 +421,13 @@
         url = f'http://artii.herokuapp.com/make?text={string}'
         result = requests.get(url).text
         context = {
-            'artii_result': result,
+          'artii_result': result,
         }
-        return render(request, 'artii_result.html', context)
+      return render(request, 'artii_result.html', context)
     ```
-
+  
     결과물을 표시해줄 `artii_result.html` 페이지를 만든다.
-
+  
     ```html
     <!DOCTYPE html>
     <html lang="en">
@@ -434,11 +438,11 @@
       <title>my_artii_result</title>
     </head>
     <body>
-    {{ artii_result }}
+  {{ artii_result }}
     </body>
     </html>
     ```
-
+  
     
 
 
