@@ -1,9 +1,8 @@
-# django
-
-### 오전 수업
+# 190812_django_day_01_오전 수업
+## Django Intro
 
 - 여러 웹 프레임워크 중 `Opinionated`, `Unopinionated` 성격을 모두 갖고 있음
-  - 장고에서 정한 규칙대로 따라야 하는 `opinionated`. 초반에 배워야할 게 많지만 배워두면 이후부터 뭔가를 할 때 편해짐
+  - 장고에서 정한 규칙대로 따라야 하는 `opinionated(독선적) 성격`. 초반에 배워야할 게 많지만 배워두면 이후부터 뭔가를 할 때 편해짐
   - 우리가 원하는대로 짜게 해줄 수 있는 `Unopinionated` 성격도 있지만, 기능등이 잘 모듈화되어있지 않기 때문에 나중에 코드의 유지관리/보수가 힘들 수도 있음
   - 초반에는 장고가 정해둔 규칙을 익히는 데 시간을 많이 쓰게된다.
   - `장고?` `쟁고?`, `디장고?`, `디쟁고?`
@@ -36,12 +35,15 @@
 
 - 파이썬은 이미 전사적으로 대세가 되는 분위기. 
 
-- ```python
+- Flask 를 이용했던 간단한 웹 만들기
+  ```python
   @app.route('posts')
   def index():
+      ...
       return render_template
-  # Flask 를 이용했던 간단한 웹 만들기
-  '''
+  ```
+- 그러나 flask로 구현하려는 웹 기능이 많아지면 많아질 수록 관리하기 불편해졌다.
+  ```python
   posts/
   posts/create
   posts/edit
@@ -49,103 +51,162 @@
   .
   .
   .
-  기능이 많아지면 많아질 수록 관리하기 불편한 Flask
-  '''
+  # 각 페이지마다 따로 만들어줘야했기 때문.
   ```
-
-- MVC?
-
+  
+- MVC, MTV
   - 아름답게 코드 유지/보수/관리 가능한 패턴
   - 장고를 쓰기 위해서는 반드시 MVC 패턴을 익혀야 한다.
   - 그런데 장고에서는 MVC를 MTV라고 명명. 기본은 똑같다.
-  - `M`odel(데이터 `관리`), `T`emplate(사용자가 `보는 화면`), `V`iew(`중간 관리자`)
+  - `M`odel(데이터 `관리`)/`T`emplate(사용자가 `보는 화면`)/`V`iew(`중간 관리자`)
   - 1~2주차에는 T와 V에 집중, 데이터베이스를 익힌 후에는 M에도 집중하게될 것
-  - 이 중에서 가장 중요한 것은 `View!`
-    - `View`가 `Model`과 `Template`을 관리한다.
+  - 이 중에서 가장 중요한 것은 중간 관리자인 `View!`
+
+- Django의 요청 처리 방식
+  - `View`가 `Model`과 `Template`을 관리한다.
   - Step by step으로 알아보자.
-    - 사용자가 url 입력
-    - _(문지기가 view한테 전달): 지금은 몰라도 되는 과정_
-    - `view`가 `model`한테 database에서 사용자가 원하는 자료를 찾으라고 명령
-    - `model`은 사용자가 요청한 자료를 찾아 `view`한테 넘김
-    - `view`는 다시 그 문서를 `template`한테 넘긴다.
-    - `template`은 html 페이지를 사용자에게 보여줌!
+    1. 사용자가 url 입력 (요청이 들어온다.)
+    2. _(문지기가 view한테 전달): 지금은 몰라도 되는 과정_
+    3. `view`가 `model`한테 database에서 사용자가 원하는 자료를 찾으라고 명령
+    4. `model`은 database에서 요청한 자료를 찾아 `view`한테 넘김
+    5. `view`는 다시 그 문서를 `template`한테 넘긴다.
+    6. `template`은 html 페이지를 사용자에게 보여줌!
 
-- 만들어 보즈아~~~
 
-- virtual env(가상환경)에서 작업하자 (python 3.7버전 이상, django 2.2.4 버전(8월 1일 업데이트))
 
-- 장고에서는 맨날 똑같이 쓰는 파일의 템플릿을 만들자: git Bash 창에서 `django-admin startproject first_app .`
 
+
+## Django 프로젝트 시작해보기 1
+
+### Intro
+
+- SSAFY 컴퓨터로 작업할거면 3.7버전 이상의 파이썬 virtual env(가상환경)에 django 2.2.4 최신 버전을 install해서 작업하자 (알고리즘은 파이썬 3.5버전을 써야함)
+
+- 장고의 관례에 맞춰 맨날 똑같이 쓰는 파일의 템플릿을 만들자: `git bash창 켜기`
+  ```bash
+  $ venv: 미리 만들어 둔 가상환경 setting 
+  $ django-admin startproject [first_app: 프로젝트 이름] [FIRST_APP: 디렉토리]
+  ```
+  
+  - 폴더구조[디렉토리]는 대문자로, 동일한 이름의 프로젝트를 소문자로 작성한다.
   - 뭔가 생겼다!? (first_app 폴더랑 manage.py)
+
   - first_app 폴더 안에도 뭔가가 생겼다!
+  ```bash
+  $ python manage.py runserver
+  ```
+  - 서버를 돌련 후, 브라우저에 `localhost:8000` 입력하고 들어가서 장고로켓이 보이면 된 것! 서버 끄는 방법은 Flask 랑 똑같이 `Crtl+C`
 
-- 장고의 관례:
+- 장고 프로젝트의 디렉토리 컨벤션(폴더 하부 구조):
 
-  - 폴더구조는 대문자로 만들고, 동일한 이름의 프로젝트 폴더을 소문자로 작성한다.
+  - 장고 전체 크기 구조를 Project라는 이름으로 부를 것
+  
+  - 이 프로젝트 안에 세부적인 기능을 하는 app들이 들어올 것이다.
+    - FIRST_APP: 폴더 아래에는 로직 별로 기능이 분화된 app들이 있음
+      - `first_app`: 처음 만든 테스트 app
+      - `app1`: 게시판 관리 기능 app
+      - `app2`: 회원 관리 기능 app
+      - `app3`: 영화 평점 기능 app
+      .
+      .
+    
+  - 지금 만든 것은 첫 app이라는 의미로, `first_app`이라는 앱을 만들어 보았다.
+  
+  ```
+  FIRST_APP /
+  		manage.py: 서버 돌릴 때 이용. 다른 기능들은 거의 만지지 않을 예정
+  		db.sqlite3
+  		first_app /
+  				__init__
+  				settings.py: 장고 app의 모든 설정들이 들어가 있음
+  				urls.py: 가장 많이 쓰게 될 것. `문지기`역할. 첫 번쨰 앱의 url 설정
+  				wsgi.py: 지금 말고 나중에 사용할 것.
+  		..
+  		..
+  		(나중에 여기에 여러 app기능들을 추가해 줄 것임)
+  ```
 
-  - Git Bash에서 가상환경 켜고(venv), 대문자 폴더(FIRST_APP) 만들고, 폴더 이름과 같은 것을 소문자로 작성한다 `django-admin startproject [first_app][FIRST_APP]`
-
-  - `python manage.py runserver`하고 localhost:8000 들어가서 장고로켓이 보이면 된 것!
-
-  - Server 끄는 방법은 Flask 랑 똑같이 `Crtl+C`
-
-  - `settings.py`: 장고 app 의 모든 설정들이 들어가 있다
-
-  - `urls.py`: 가장 많이 쓰게 될 것. 첫 번째 앱을 만들고 url 설정을 할 때...(앞에서 설명한 `문지기` 역할의 파일)
-
+    - `manage.py`: 건드릴 일 거의 없음. 스크립트 돌릴 때만 쓸 것
+    - `settings.py`: 장고 app 의 모든 설정들이 들어가 있다
+    - `urls.py`: 가장 많이 쓰게 될 것. 첫 번째 앱을 만들고 url 설정을 할 때...(앞에서 설명한 `문지기` 역할의 파일)
     ```python
     @app.route(url) ==> url.py가 대신 역할을 하게 된다.
     def index():
     ```
 
-  - `manage.py`: 건드릴 일 거의 없음. 스크립트 돌릴 때만 쓸 것
 
-- 장고는 전체 크기 구조를 Project라는 이름으로 불리게 될 것이고 Project 안에 세부적인 앱들이 들어올 것.
-  Project: 로직 별로 기능을 분화
-  -app1: 게시판 관리
-  -app2: 회원 관리
-  -app3: 영화 평점
 
-- `python manage.py startapp [앱 이름 pages]`: 간단한 싱글페이지들이 묶여있는 app
+### 장고의 컨벤션을 대략 익혔으면 직접 다뤄볼 app을 project 내부에 만들어보자
+```bash
+$ python manage.py startapp [pages]: 간단한 싱글페이지들이 묶여있는 app
+```
 
-  - `__init__`: 페이지 관리 지점 정의
-  - `model.py`: MTV 중 Model을 담당하는 곳
-  - `view.py`: MTV 중 View를 담당하는 곳
-  - `test.py`: 지금은 사용 안 함
+  - Git Bash에서 위 명령어를 실행하면, `pages`라는 이름을 갖는 app(폴더)이 생기고 폴더 안에 여러 파일들이 생긴다. 
 
-- 문지기(`url.py`):
+      - `__init__`: 페이지 관리 지점 정의
 
-  ```python
-  from django.contrib import admin
-  from django.urls import path
-  from pages import views # 이거도 써줘야 함
+      - `model.py`: MTV 중 Model을 담당하는 곳
+
+      - `view.py`: MTV 중 View를 담당하는 곳
+
+      - `test.py`: 지금은 사용 안 함
+
+        
+
+- `settings.py`
+
+  - `startsproject`로 만든 `first_app` 폴더 안에 있다.
+  - `settings.py`에 들어가 보면 `INSTALLED_APPS`가 보이는데, 여기에 내가 만든 앱인 pages를 추가하자.
+    
+    ```python
+    INSTALLED_APPS = [
+        'pages',
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+    ]
+    ```
+
+- 문지기(`url.py`): 
+
+  - `startproject`로 만든 `first_app` 폴더 안에 있다.
+
+  - 여기에 path를 등록한다. `경로 설정`
+
+  - localhost:8000/ 뒤에 붙을 경로들
+
+  - path(첫 번째 인자, 두 번째 인자): 첫 번째 인자는 경로, 두 번째 인자는 그 경로가 있는 위치
+
+    ```python
+    from django.contrib import admin
+    from django.urls import path
+    ```
+    
+    ```python
+      # 이거도 써줘야 함. 내가 만든 pages라는 패키지로부터(from) views 모듈을 쓸 것이기 때문에.
+      from pages import views
+    ```
   
-  urlpatterns = [
-      # 첫 번째 인자: 주문서(url 경로)
-      # 두 번째 인자: view 함수의 위치
-      path('admin/', admin.site.urls),
-      path('index/', views.index),    
-  ]
-  ```
+    ```python
+    urlpatterns = [
+        # path(첫 번째 인자: 주문서(url 경로), 두 번째 인자: view 함수의 위치)
+        path('admin/', admin.site.urls),
+        path('index/', views.index),    
+    ]
+    
+    # trailing comma를 붙이는 것도 장고의 컨벤션 중 하나이다.
+    # 나중에 추가될 경로가 생길 때 혹시나 comma가 없어서 생기는 오류를 방지
+    # views에 있는 index 메서드를 사용할 것이라는 의미 => views.py에 index 함수를 만들어주자.
+    ```
 
-- `settings.py`의 `INSTALLED_APPS`:
 
-  ```python
-  INSTALLED_APPS = [
-      'pages', # 이거를 만들어줘야 한다.
-      'django.contrib.admin',
-      'django.contrib.auth',
-      'django.contrib.contenttypes',
-      'django.contrib.sessions',
-      'django.contrib.messages',
-      'django.contrib.staticfiles',
-  ]
-  ```
+- `F1`누르고, `python interpreter` 입력. `venv`환경(python 3.7 이상)에서만 해주자!
 
-- `F1`누르고, `python interpreter` 입력. `venv`환경에서만 해주자!
-
-- `views.py`: 함수들을 하나씩 만들어 나갈 것
-
+- `views.py`:
+  
   ```python
   from django.shortcuts import render
   
@@ -155,10 +216,25 @@
       # request 인자에는 사용자가 보낸 요청에 대한 정보가 다 들어있음
       return render(request, 'index.html')
   ```
+  - `pages`에 있다.
+  
+  - view는 HttpResponse 객체를 return한다.
+  
+  - 메서드: views 모듈 안에 `def`로 만들어진 여러 함수들
+    
+  - render의 결과물은 뭐다? 
+  
+    - render 함수의 return은 HttpResponse. html 파일에 파이썬에서 다룬 변수를 넘겨주는 것이다.
+    - 장고가 render(request, 'index.html')를 통해 html 타입으로 만들어 주는 것.
+  
+    - Django에서는 render의 첫 번째 인자로 무조건 request를 받고,
+    - 두 번째 인자로는 변수를 넘겨줄 html파일을 지정해준다.
+    - 이 html 파일은 `views.py`와 동일 폴더 내에 있는 `templates`폴더에 있는 html 파일을 우선 탐색한다.
+    - pages > templates > index.html 만들어 주기
+  
+- 장고는 플라스크에서처럼 서버를 껐다 다시 켜지 않아도 새로고침만 하면 내가 요청한 페이지를 보여준다.
 
-- pages 폴더 안에 templates 폴더 안에 index.html 만들기
-
-- 플라스크에서처럼 서버를 껐다 다시 켜지 않아도 새로고침만 하면 내가 요청한 페이지를 보여준다.
+  
 
 - 한 번 더!
 
@@ -180,53 +256,66 @@
 
   - `view.py`에서 함수 설정
 
-    ```python
-    from django.shortcuts import render
-    from django.http import HttpResponse
+    - 장고는 HttpResponse 객체를 이용해 페이지의 내용을 직접 전달해 줄 수도 있다.
+    - 그런데 굳이 이렇게 할 필요는 없다. 뭐하러 이렇게 귀찮게 하나?
     
-    def home(request):
-        return HttpResponse('홈페이지')
-    ```
+      ```python
+      from django.shortcuts import render
+      from django.http import HttpResponse
+    
+      def home(request):
+          return HttpResponse(<h1>홈페이지<h1>)
+      ```
 
-### 오후 수업
 
-- view는 HttpResponse 객체를 return한다.
 
-- render의 결과물은 뭐다? 
+# django_day_01_오후 수업
 
-  - render 함수의 return은 HttpResponse.
+## Django 프로젝트 시작해보기 2
 
-  - 장고가 render(request, 'index.html')를 통해 html 타입으로 만들어 주는 것.
+### Django가 data를 넘겨받는 법
+
+- django.shortcuts로부터 render를 import하면 render는 HttpResponse 객체를 반환
+- render의 context argument를 dictionary 형식으로 입력 (**Django의 컨벤션**)
+- context dictionary의 `key`는 html에서 쓰일 이름, `value`는 파이썬에서 선언한 변수이다.
 
     ```python
     def home(request):
-        # return HttpResponse('<!DOCTYPE><html>....홈페이지')
+        return HttpResponse(
+            '<!DOCTYPE><html><head></head><body>....홈페이지</body></html>'
+        )
+    # 이렇게 해도 가능 but 이런 짓 하지마...
+    # 가능하다 != 사용한다
+    ````
+    ````python
+    def home(request):
         name = 'Kahn'
         data = ['강동주', '김지수', '정의진']
         context = {
+            # html로 보낼이름 : python에서 선언한 변수
             'name': name,
             'data': data,
         }
         return render(request, 'home.html', context)
     ```
-
     ```html
+    <!--home.html 파일-->
+    
     <!DOCTYPE html>
     <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta http-equiv="X-UA-Compatible" content="ie=edge">
-      <title>Document</title>
-    </head>
-    <body>
-      <h1>데이터를 넘겨받는 법</h1>
-      <p> {{ name }}</p>
-      {% for item in data %}
-        <p>{{item}}</p>
-    
-      {% endfor %}
-    </body>
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+      </head>
+      <body>
+        <h1>데이터를 넘겨받는 법</h1>
+        <p> {{ name }}</p>
+        {% for item in data %}
+          <p>{{item}}</p>
+        {% endfor %}
+      </body>
     </html>
     ```
 
@@ -367,10 +456,14 @@
 
   
 
-- DTL(Django Template Language) 관련 문법(python과 유사할 뿐 python이 아니다!)
+### DTL
+- Django Template Language 관련 문법
 
-  - for / 이중 for문
-
+- python과 유사할 뿐 python이 아니다!
+  
+- 공식 문서:  **https://docs.djangoproject.com/en/2.2/ref/templates/language/**
+  
+  - for
     ```html
       <h2>for문 활용법</h2>
       <!-- <h2>데이터가 없을 때는 empty 부분이 실행된다.</h2> -->
@@ -383,7 +476,7 @@
     
       {% endfor %}
     ```
-
+  - 이중 for문
     ```html
       <h2>이중 for문</h2>
       {% for array in matrix %}
@@ -392,18 +485,18 @@
       	{% endfor %}
       {% endfor %}
     ```
-
+  ```
+  
   - if
-
     ```html
       <h1>DTL 조건문</h1>
       {% if number > 0 %}
       <p>이건 0보다 큰 숫자야</p>
       {% endif %}
-    ```
-
-  - helper / filter
-
+  ```
+  
+- helper / filter
+  
     ```html
       <h2>다양한 helper / filter</h2>
       <h3>helper</h3>
@@ -417,35 +510,82 @@
         {{ movie|truncatechars:3 }}
         <!-- movie에 들어간 영화 제목의 길이를 3(세자리)까지만 표시-->
       {% endfor %}
-    ```
-
-  - datetime
-
+  ```
+  
+- datetime
+  
     ```html
       <h4>datetime</h4>
       {% now 'Y년 M월 m월 d일 h시 i분 a day' %}
-    ```
+  ```
+  
+  - `setting.py`에서 시간 설정 가능('Asia/Seoul') 기본 설정은 `UTC`
 
-    - `setting.py`에서 시간 설정 가능('Asia/Seoul') 기본 설정은 `UTC`
 
-- `csrf`: 사용자의 값을 POST로 받을 때, 추가해줘야 하는 것
 
+### Dynamic Web(동적 웹)
+- 사용자가 입력한 값마다 다른 결과의 웹 페이지를 보여준다.
+
+- urls.py에 아래 코드를 추가해보자
   ```python
-  def match(request):
-      import random
-      goonghap = random.randint(50,100)
-      me = request.POST.get('me')
-      you = request.POST.get('you')
-      test = request.path_info
-      context = {
+  path('cube/<num>/', views.cube), # num 데이터를 받는다. 그러나 이건 string임
+  path('cube/<int:num>', views.cube) # string을 int로 받기 위해서 해줘야하는 작업
+  ```
+  
+#### GET method 사용하기
+  ```python
+def match(request):
+    import random
+    goonghap = random.randint(50,100)
+    me = request.POST.get('me')
+    you = request.POST.get('you')
+    test = request.path_info
+    context = {
+        'goonghap': goonghap,
+        'me': me,
+        'you': you,
+        'test': test,
+    }
+    return render(request, 'match.html', context)
+  ```
+  ```python
+print(request)
+print(request.GET)
+print(request.GET.get('me'))
+  ```
+  ```python
+  >>> <WSGIRequest: GET '/match/?me=a&you=b'>
+  >>> <QueryDict: {
+        'goonghap': goonghap,
+        'me': me,
+        'you': you,
+        'test': test,
+      }>
+  >>> me
+  ```
+
+
+
+
+#### POST method 사용하기
+- csrf: cross-site reference) 추가
+- POST 방식으로 사용자의 데이터를 받을 때, csrf_token을 함께 보내도록 한다.
+  ```python
+  print(request)
+  print(request.POST)
+  print(request.POST.get('me'))
+  ```
+  ```python
+  >>> <WSGIRequest: POST '/match/'>
+  >>> <QueryDict: {
+          'csrfmiddlewaretoken': ['---some token---'],
           'goonghap': goonghap,
           'me': me,
           'you': you,
           'test': test,
-      }
-      return render(request, 'match.html', context)
+          }>
+  >>> me
   ```
-
   ```html
   <body>
     <h1>안녕하세요</h1>
@@ -528,5 +668,3 @@
       }
       return render(request, 'match.html', context)
   ```
-
-- 
