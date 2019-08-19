@@ -385,8 +385,20 @@
   ]
   ```
   
+  ```python
+  from django.contrib import admin
+  from django.urls import path, include
   
+  urlpatterns = [
+  	...
+      path('artii/', include('artii.urls')),
+  ]
+  ```
   
+   artii라는 url이 들어오면, artii 폴더의 urls.py를 참조하라는 의미로 first_app 폴더의 urls.py에 저렇게 include를 해준다. include 안에는 패키지 이름을 그대로 넣어주면 된다.
+
+
+
 - 입력url(`localhost:8000/artii/`)에서 보여줄 html페이지에 표시할 기능들을 `views.py`에 만들어 주자.
   
   ```python
