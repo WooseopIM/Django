@@ -1,0 +1,20 @@
+div>jumbotron {
+  background-image: url('https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjG_pylsJDkAhWGvZQKHbmJBrIQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.positive.news%2Fenvironment%2Fpeople-share-their-love-for-trees-and-forests-on-international-day-of-forests%2F&psig=AOvVaw10HLyaU34MEnFOUFuSreSv&ust=1566353673951787');
+}
+#footer {
+  width: 100%;
+  height: 50px;
+  padding: 0 3rem;
+
+  position: fixed;
+  bottom: 0;
+  line-height: 50px;
+}
+
+div {
+  font-family: 'Jua', sans-serif !important;
+}
+
+* {
+  font-family: 'Jua', sans-serif !important;
+}

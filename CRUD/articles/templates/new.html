@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container">
+  <h1>CRUD 실습 블로그를 만들어보자</h1>
+
+  <form action="/articles/create/" method="GET">
+    <label for="">제목</label>
+    <input class="form-control" type="text" name="title" placeholder="제목을 입력하세요" style="width: 60%"><br>
+    <label for="">내용</label>
+    <textarea class="form-control" name="contents" cols="50" rows="10" placeholder="내용을 입력하세요" style="width: 60%"></textarea><br>
+    <label for="">이미지url</label>
+    <input class="form-control" name="img_url" type="text" style="width: 60%">
+    <a class="button btn btn-secondary" href="">업로드</a>
+    <button class="btn btn-secondary" type="submit"></button>
+  </form>
+</div>
+
+
+{% endblock %}

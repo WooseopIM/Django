@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container">
+  <h1 style="color: black">쓴 글 목록<a type="button" class="btn btn-info" href="articles/new/">새 글쓰기</a></h1>
+  <div class="row">
+    {% for article in articles %}
+    <div class="card w-50">
+      <div class="card-body">
+        <h5 class="card-title">제목: {{ article.title }}</h5>
+        <p class="card-text">내용: {{ article.contents }}</p>
+        <p>이미지: <img src="{{ article.img_url }}" style="width: 100%" alt=""></p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+
+{% endblock %}
