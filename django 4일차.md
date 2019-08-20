@@ -573,15 +573,15 @@
   - ```html
     {% for post in posts %}
     <tr>
-        <th scope="row">{{ post.id }}</th>
-        <td><a href="/posts/{{ post.id }}">{{ post.title }}</a></td>
-              <td>{{ post.created_at }}</td>
-              <td>{{ post.updated_at }}</td>
-            </tr>
-            {% endfor %}
+      <th scope="row">{{ post.id }}</th>
+      <td><a href="/posts/{{ post.id }}">{{ post.title }}</a></td>
+      <td>{{ post.created_at }}</td>
+      <td>{{ post.updated_at }}</td>
+    </tr>
+    {% endfor %}
     ```
 
-  - 
+  - `{% for post in posts %}`에서 posts는 `views.py`의 `index`함수에서 `Post.objects.all()`로 클래스 선언한 것. html에서 사용하기 위해서는 `{{ }}` 안에 클래스처럼 사용할 수 있다. 
 
 - `new`
 
@@ -593,6 +593,36 @@
     def new(request):
         return render(request, 'posts/new.html')
     ```
+    
+  - 마찬가지로 {% extends %}와 {% block body %}를 통해 공통템플릿을 사용시켜준다.
+
+  - 깔끔하게 보이게 하기 위해서 Bootstrap의 Card 컴포넌트를 사용, class='Containder'로 해준다.
+
+  - form 태그 아래의 div들에는 form-group과 form-control class를 적용한다.
+
+  - ```html
+    {% extends 'base.html' %}
+    
+    {% block body %}
+    <div class="container">
+      <h1>새글쓰기</h1>
+      <form action="{% url 'posts:create' %}">
+        <div class="form-group">
+          <label for="title">제목</label>
+          <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력해 주세요">
+          <label for="content">내용</label>
+          <textarea class="form-control" name="content" id="content" cols="30" rows="10" placeholder="내용일 입력해 주세요"></textarea>
+          <label for="image_url">이미지 URL</label>
+          <input type="text" class="form-control" id="image_url" name="image_url" placeholder="사진url을 넣어주세요">
+        </div>
+        <button type="submit" class="btn btn-info">글쓰기</button>
+      </form>
+    </div>
+    
+    {% endblock %}
+    ```
+
+  - 
 
 - `create`
 
@@ -650,6 +680,27 @@
         }
         return render(request, 'posts/detail.html', context)
     ```
+    
+  - 마찬가지로, {% extends %}와 {% block body %}를 통해 템플릿 확장.
+
+  - a 태그 링크 주소의 의미: `/posts/{{ post.id }}/~~`
+
+  - ```html
+    {% extends 'base.html' %}
+    {% block body %}
+    <div class="containder">
+      <a href="/posts/{{ post.id }}/edit/" class="btn btn-success">수정</a>
+      <a href="/posts/{{ post.id }}/delete/" class="btn btn-danger">삭제</a>
+      <h1>{{ post.title }}</h1>
+      <p>{{ post.content }}</p>
+      <img src="{{ post.image_url }}" alt="">
+      <p>{{ post.created_at }}</p>
+      <p>{{ post.updated_at }}</p>
+    </div>
+    {% endblock %}
+    ```
+
+  - 
 
 - `delete`
 
@@ -691,6 +742,30 @@
     
         return render(request, 'posts/edit.html', context)
     ```
+    
+  - ```html
+    {% extends 'base.html' %}
+    
+    {% block body %}
+    <div class="container">
+      <h1>수정</h1>
+      <form action="{% url 'posts:update' post.id %}">
+        <div class="form-group">
+          <label for="title">제목</label>
+          <input type="text" value="{{ post.title }}" class="form-control" id="title" name="title" placeholder="제목을 입력해 주세요">
+          <label for="content">내용</label>
+          <textarea class="form-control" name="content" id="content" cols="30" rows="10" placeholder="내용일 입력해 주세요">{{ post.content }}</textarea>
+          <label for="image_url">이미지 URL</label>
+          <input type="text" value="{{ post.image_url }}" class="form-control" id="image_url" name="image_url" placeholder="사진url을 넣어주세요">
+        </div>
+        <button type="submit" class="btn btn-info">수정</button>
+      </form>
+    </div>
+    
+    {% endblock %}
+    ```
+
+  - 
 
 - `update`
 
