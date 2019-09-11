@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Todo
 
 # Create your views here.
@@ -10,40 +10,42 @@ def index(request):
     }
     return render(request, 'todos/index.html', context)
 
-def new(request):
-    return render(request, 'todos/new.html')
-
 def create(request):
     # data 가져오기
-    title = request.POST.get('title')
-    due_date = request.POST.get('due-date')
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        due_date = request.POST.get('due-date')
 
-    Todo.objects.create(title=title, due_date=due_date)
-    return redirect('todos:index')
+        Todo.objects.create(title=title, due_date=due_date)
+        return redirect('todos:index')
+    else:
+        return render(request, 'todos/create.html')
 
-def edit(request, pk):
-    # 기존 data 가져오기
-    todo = Todo.objects.get(id=pk)
-    context = {
-        'todo': todo
-    }
-
-    return render(request, 'todos/edit.html',context)
 
 
 def update(request, pk):
-    # 갱신된 최신 data 가져오기
-    title = request.POST.get('title')
-    due_date = request.POST.get('due-date')
+    todo = get_object_or_404(Todo, id=pk)
 
-    todo = Todo.objects.get(id=pk)
-    todo.title = title
-    todo.due_date = due_date
-    todo.save()
 
-    return redirect('todos:index')
+    if request.method == 'POST':
+        # 갱신된 최신 data 가져오기
+        title = request.POST.get('title')
+        due_date = request.POST.get('due-date')
+        todo.title = title
+        todo.due_date = due_date
+        todo.save()
+
+        return redirect('todos:index')
+    else:
+        # 기존 data 가져오기
+        context = {
+        'todo': todo
+        }
+
+        return render(request, 'todos/update.html',context)
+
 
 def delete(request,pk):
-    todo = Todo.objects.get(id=pk)
+    todo = get_object_or_404(Todo, id=pk)
     todo.delete()
     return redirect('todos:index')
