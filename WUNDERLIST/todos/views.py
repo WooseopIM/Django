@@ -44,7 +44,6 @@ def update(request, pk):
 
         return render(request, 'todos/update.html',context)
 
-
 def delete(request,pk):
     todo = get_object_or_404(Todo, id=pk)
     todo.delete()
