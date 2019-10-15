@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+<div class="container">
+  <h1 id='title'>여기에 내용물이 들어갈거야(Articles)</h1>
+  <a class="btn btn-info" href="{% url 'articles:create' %}">새글쓰기</a>
+
+  <!-- 모든 Articles들을 보여줌 -->
+  {% for article in articles %}
+  <p>{{ article.pk }}</p>
+  <p>{{ article.title }}</p>
+  <a href="{{ article.get_absolute_url }}">상세보기</a>
+  {% endfor %}
+</div>
+
+
+{% endblock %}
