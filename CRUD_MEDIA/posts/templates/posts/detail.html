@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container">
+  <a href="/posts/{{ post.id }}/update/" class="btn btn-success">수정</a>
+  <a href="/posts/{{ post.id }}/delete/" class="btn btn-danger">삭제</a>
+  <h1>{{ post.title }}</h1>
+  <p>{{ post.content }}</p>
+  
+  <!-- post.image가 있으면 사진을 보여주고, 없으면 no_detail_img.jpg 파일 보여주기 -->
+  {% if post.image %}
+    <img src="{{ post.image.url }}" alt="{{ post.image.name }}">
+  {% else %}
+    <img src="/media/no_detail_img.jpg" alt="no_image">
+  {% endif %}
+
+  <p>{{ post.created_at }}</p>
+  <p>{{ post.updated_at }}</p>
+  <hr>
+  <h2>댓글 목록</h2>
+  <form action="/posts/{{ post.pk }}/create_comment/" method="GET">
+    <input type="text" name="content">
+    <input type="submit">
+  </form>
+  <hr>
+  
+    <p><i>총 {{ comments | length }}개의 댓글이 있습니다.</i></p>
+    {% for comment in comments %}
+      <p>{{ comment.content }}</p>
+    {% empty %}
+     <p><i>아직 댓글이 없어요. 댓글 달아주세요 ㅠㅠ</i></p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
