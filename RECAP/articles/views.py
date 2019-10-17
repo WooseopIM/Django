@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Article, Comment
-from .forms import ArticleForm, CommentsForm
+from .forms import ArticleForm, CommentForm
 from IPython import embed
 from django.http import Http404
 from django.views.decorators.http import require_POST
@@ -19,15 +19,14 @@ def detail(request,article_pk):
     # 만약에 Article.objects.get(pk=article_pk)가 없으면? try안에 에러가 날 법한 소스를 넣어서 확인
     try:
         article = Article.objects.get(pk=article_pk)
-        comments = article.comment_set.all()
     except Article.DoesNotExist: # 에러가 발생하면 아래를 실행
         raise Http404('해당하는 id의 글이 존재하지 않습니다.')
     
-    c_form = CommentsForm()
+    c_form = CommentForm()
     # 위의 try 구문이 무리 없이 통과되면 아래 코드가 실행될 것
     context = {
         'article': article,
-        'comments': comments,
+        'comments': article.comment_set.all(),
         'c_form': c_form,
     }
     return render(request, 'articles/detail.html', context)
@@ -47,7 +46,6 @@ def create(request):
             #     content=content,
             #     )
             article = form.save() # 위에 여러 줄에 한 줄로 바뀌었다.
-            embed()
             return redirect(article)
         else:
             return redirect('articles:create')
@@ -92,25 +90,23 @@ def delete(request, article_pk):
 
 
 def create_comment(request, article_pk):
-    if request.method == 'POST':
-        article = Article.objects.get(pk=article_pk)
-        c_form = CommentsForm(request.POST)
+    article = Article.objects.get(pk=article_pk)
 
-        if c_form.is_valid():
-            comment = c_form.save()
-            embed()
-            return redirect(article)
-        else:
-            c_form = CommentsForm()
-            context = {
-                'c_form':c_form,
-            }
-            return render(request, 'articles/detail.html', context)
-    else:
-        c_form = CommentsForm()
-        embed()
-        comment = c_form.save()
-        return redirect(comment)
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            # embed()
+            # comment.article_id = article_pk
+            # # 실제 DB에 반영이 되는 아래 실행문
+            # comment.save()
+            comment.article = article
+            comment.save()
+    # return redirect('articles:detail', article_pk)
+    return redirect(article)
+
+
     # Comment.objects.create(
     #     content=request.GET.get('content'),
     #     article=Article.objects.get(pk=article_pk),

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+  <h2>SSAFY 서울 1반 게시판</h2>
+  <div>
+    <form action="{% url 'posts:create' %}" method="POST">
+      {% csrf_token %}
+      <input type="text" name="title" placeholder="할 일을 적어주세요">
+      <input type="text" name="content" placeholder="내용을 적어주세요">
+      <input type="submit">
+    </form>
+  </div>
+  <a class="btn btn-dark" href="{% url 'posts:index' %}">목록</a>
+</div>
+
+{% endblock %}

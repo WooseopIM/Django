@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+  <h2>SSAFY 서울 1반 게시판 편집 페이지</h2>
+  <form action="{% url 'posts:update' todo.id %}" method="GET">
+    <input type="text" name="title" value="{{ posts.title }}">
+    <input type="text" name="content" value="{{ posts.content }}">
+    <input type="submit">
+  </form>
+</div>
+
+{% endblock %}

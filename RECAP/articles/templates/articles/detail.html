@@ -20,16 +20,15 @@
   
   <h2>댓글 목록</h2>
   
-  <form action="{% url 'articles:comments' article.pk %}" method="POST">
+  <form action="{% url 'articles:create_comment' article.pk %}" method="POST">
     {% csrf_token %}
     {% bootstrap_form c_form %}
-    <!-- <input type="text" name="content"> -->
     <input type="submit" class="btn btn-secondary">
   </form>
   <hr>
     <p><i>총 {{ comments | length }}개의 댓글이 달렸습니다.</i></p>
     {% for comment in comments %}
-      <p>{{ comment.content }}</p>
+      <p>{{ comment.comment }}</p>
     {% empty %}
       <p><i>아직 댓글이 없어요. 댓글 달아주세요</i></p>
     {% endfor %}

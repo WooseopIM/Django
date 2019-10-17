@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+  <h2>SSAFY 서울 1반 게시판</h2>
+  <a href="/posts/update/{{ posts.id }}/" class="btn btn-success">수정</a>
+  <a href="/posts/delete/{{ posts.id }}/" class="btn btn-danger">삭제</a>
+  <h1>{{ posts.title }}</h1>
+  <p>{{ posts.content }}</p>
+  <img src="{{ posts.image_url }}" alt="">
+  <p>{{ posts.created_at }}</p>
+  <p>{{ posts.updated_at }}</p>
+</div>
+{% endblock %}
