@@ -29,6 +29,10 @@
     <p><i>총 {{ comments | length }}개의 댓글이 달렸습니다.</i></p>
     {% for comment in comments %}
       <p>{{ comment.comment }}</p>
+      <form action="{% url 'articles:comment_delete' article.pk comment.pk %}" method='POST'>
+        {% csrf_token %}
+        <input type="submit" value="댓삭" class="btn btn-danger">
+      </form>
     {% empty %}
       <p><i>아직 댓글이 없어요. 댓글 달아주세요</i></p>
     {% endfor %}

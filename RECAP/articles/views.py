@@ -111,3 +111,12 @@ def create_comment(request, article_pk):
     #     article=Article.objects.get(pk=article_pk),
     # )
     # return redirect('articles:detail',article_pk)
+
+
+def comment_delete(request, article_pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    article = Article.objects.get(pk=article_pk)
+    if request.method == 'POST':
+        if comment.article == article:
+            comment.delete()
+    return redirect(article)
