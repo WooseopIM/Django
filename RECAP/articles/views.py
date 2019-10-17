@@ -50,9 +50,8 @@ def create(request):
         else:
             return redirect('articles:create')
     else:
-        form = ArticleForm()
         context = {
-            'form':form,
+            'form':ArticleForm(),
         }
         return render(request, 'articles/create.html', context)
 
