@@ -1,0 +1,64 @@
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% load staticfiles %}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Jua|Sunflower:300&display=swap" rel="stylesheet">
+
+  <title>SSAFY Project06</title>
+  <style>
+    * {
+      font-family: 'Jua', sans-serif;
+    }
+
+    nav.navbar {
+      font-family: 'Sunflower', sans-serif;
+    }
+
+    div.jumbotron {
+      background-image: url("{% static 'movie-918655_1920.jpg' %}");
+      background-position-y: 300px;
+    }
+
+    h2 {
+      color: aliceblue;
+    }
+
+    span {
+      color: darkslateblue;
+    }
+  </style>
+</head>
+
+<body>
+  {% if user.is_authenticated %}
+    <p>안녕하세요, {{ user.username }}님</p>
+    <a href="{% url 'accounts:logout' %}">로그아웃</a>
+    <a class="btn btn-success" href="{% url 'accounts:update' %}">회원정보수정</a>
+    <form style="display: inline;" action="{% url 'accounts:delete' %}" method="POST">
+      {% csrf_token %}
+      <input type="submit" value="회원탈퇴" class="btn btn-danger">
+    </form>
+  {% else %}
+    <a href="{% url 'accounts:login' %}">로그인</a>
+    <a href="{% url 'accounts:signup' %}">회원가입</a>
+  {% endif %}
+  
+  {% include '_nav.html' %}
+  {% include '_jumbotron.html' %}
+  <div class="container">
+
+    {% block body %}
+    {% endblock %}
+  </div>
+</body>
+
+</html>

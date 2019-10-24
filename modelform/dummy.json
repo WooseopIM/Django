@@ -1,0 +1,84 @@
+[
+{
+  "model": "articles.hashtag",
+  "pk": 1,
+  "fields": {
+    "content": "#\ud574\uc2dc\ud0dc\uadf8"
+  }
+},
+{
+  "model": "articles.hashtag",
+  "pk": 2,
+  "fields": {
+    "content": "#\ud14c\uc2a4\ud2b8"
+  }
+},
+{
+  "model": "articles.article",
+  "pk": 1,
+  "fields": {
+    "title": "\ub098\ub294 \uc874\uc774\ub2e4",
+    "content": "\uc874\uc774 \uc4f4\uae00",
+    "created_at": "2019-10-23T04:25:33.138Z",
+    "updated_at": "2019-10-23T04:25:33.138Z",
+    "user": 1,
+    "like_users": [],
+    "hashtags": []
+  }
+},
+{
+  "model": "articles.article",
+  "pk": 2,
+  "fields": {
+    "title": "\uc774\uac74 \uc560\uc290\ub9ac\uac00 \uc4f4 \uae00",
+    "content": "\uc560\uc290\ub9ac\uc560\uc290\ub9ac",
+    "created_at": "2019-10-23T04:28:54.514Z",
+    "updated_at": "2019-10-23T04:28:54.514Z",
+    "user": 2,
+    "like_users": [],
+    "hashtags": []
+  }
+},
+{
+  "model": "articles.article",
+  "pk": 3,
+  "fields": {
+    "title": "\uc774\uc820 \ud574\uc2dc\ud0dc\uadf8 \uc800\uc7a5\ub420\uac70\uc57c \ud558\ud558",
+    "content": "\ub0b4\uc6a9 \uc911\uc5d0 \ud639\uc2dc\ub098 \uc0f5\uc774 \ub4e4\uc5b4\uac00\ub294 \uac8c \uc788\uc73c\uba74 \ub2e8\uc5b4\ubcc4\ub85c \ub04a\uc5b4\uc11c \ud574\uc2dc\ud0dc\uadf8\uc5d0 \uc800\uc7a5\ub420\uac70\uc57c\r\n#\ud574\uc2dc\ud0dc\uadf8 #\uc798\ub41c\ub2e4 #\uc9f1\uc9f1\ub9e8",
+    "created_at": "2019-10-23T05:45:55.817Z",
+    "updated_at": "2019-10-23T05:45:55.817Z",
+    "user": 1,
+    "like_users": [],
+    "hashtags": []
+  }
+},
+{
+  "model": "articles.article",
+  "pk": 4,
+  "fields": {
+    "title": "\uc81c\ubc1c \ud574\uc2dc\ud0dc\uadf8 \ub123\uc5b4\uc918",
+    "content": "#\ud574\uc2dc\ud0dc\uadf8 #\ud14c\uc2a4\ud2b8",
+    "created_at": "2019-10-23T05:47:19.462Z",
+    "updated_at": "2019-10-23T05:47:19.462Z",
+    "user": 1,
+    "like_users": [],
+    "hashtags": []
+  }
+},
+{
+  "model": "articles.article",
+  "pk": 5,
+  "fields": {
+    "title": "\uc81c\ubc1c \ud574\uc2dc\ud0dc\uadf8 \ub123\uc5b4\uc918",
+    "content": "#\ud574\uc2dc\ud0dc\uadf8 #\ud14c\uc2a4\ud2b8",
+    "created_at": "2019-10-23T05:47:50.803Z",
+    "updated_at": "2019-10-23T05:47:50.803Z",
+    "user": 1,
+    "like_users": [],
+    "hashtags": [
+      1,
+      2
+    ]
+  }
+}
+]

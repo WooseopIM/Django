@@ -1,0 +1,33 @@
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  {% if user.is_authenticated %}
+    <p>안녕, {{ user.username }}</p>
+    <a class="btn btn-info" href="{% url 'profile' user.username %}">모아보기</a>
+    <a class="btn btn-warning" href="{% url 'articles:explore' %}">둘러보기</a>
+    <a class="btn btn-primary" href="{% url 'articles:create' %}">새글쓰기</a>
+    <a class="btn btn-danger" href="{% url 'accounts:logout' %}">로그아웃</a>
+    <a class="btn btn-success" href="{% url 'accounts:update' %}">회원정보수정</a>
+    <form style="display: inline;" action="{% url 'accounts:delete' %}" method="POST">
+      {% csrf_token %}
+      <input type="submit" value="회원탈퇴" class="btn btn-secondary">
+    </form>
+  {% else %}
+    <a href="{% url 'accounts:login' %}">로그인</a>
+    <a href="{% url 'accounts:signup' %}">회원가입</a>
+  {% endif %}
+
+  {% block body %}
+  {% endblock %}
+</body>
+</html>

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+  <h1>상세페이지</h1>
+  <p>번호 : {{ article.pk }}</p>
+  <p>제목 : {{ article.title }}</p>
+  <p>내용 : {{ article.content }}</p>
+  <p>작성자 : {{ article.user }}</p>
+  <p>생성일자 : {{ article.created_at|date:"Y년, m월, d일" }}</p>
+  <p>수정일자 : {{ article.updated_at|date:"SHORT_DATE_FORMAT" }}</p>
+
+  <a href="{% url 'articles:index' %}">목록보기</a>
+
+  {% if article.user == request.user %}
+  <form action="{% url 'articles:delete' article.pk %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="삭제">
+  </form>
+  <a href="{% url 'articles:update' article.pk %}">[수정]</a>
+  {% endif %}
+
+  {% if user.is_authenticated %}
+  <form action="{% url 'articles:create_comment' article.pk %}" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form comment_form %}
+    <input type="submit">
+  </form>
+  {% endif %}
+  
+  <hr>
+  <h2>해시태그목록</h2>
+  <p>
+    {% for hashtag in article.hashtags.all %}
+      <strong>{{ hashtag }}</strong>
+    {% endfor %}
+  </p>
+
+  <h2>좋아요목록</h2>
+  <p>좋아요 : {{ article.like_users.count }}</p>
+  {% with likers=article.like_users.all %}
+  <p>좋아요 목록 : 
+      {% for liker in likers.all %}
+        {{ liker }}
+      {% endfor%}
+  </p>
+    {% if user in likers %}
+      <a href="{% url 'articles:like' article.pk %}">좋아요 취소</a>
+    {% else %}
+      <a href="{% url 'articles:like' article.pk %}">좋아요</a>
+    {% endif %}
+  {% endwith %}
+
+
+  <h2>댓글목록</h2>
+  {% for comment in comments %}
+    <p>{{ comment.user}} : {{ comment.content }}</p>
+  {% endfor %}
+
+{% endblock %}

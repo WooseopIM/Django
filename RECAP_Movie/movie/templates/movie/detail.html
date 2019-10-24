@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+<h1>영화 상세 정보</h1>
+<h3>{{ movies.title }}({{ movies.title_en }})</h3>
+<img style="width:30%" src="{{ movies.poster_url }}" alt="">
+<p><span>개봉일:</span> {{ movies.open_date }}</p>
+<p><span>누적 관객수:</span> {{ movies.audience }}명</p>
+<p><span>장르:</span> {{ movies.genre }}</p>
+<p><span>관림등급</span> {{ movies.watch_grade }}</p>
+<p><span>관객평점</span> {{ movies.score }}</p>
+<p><span>줄거리:</span></p><p>{{ movies.description }}</p>
+<p><span>작성자:</span>{{ movies.user }}</p>
+
+<a href="{% url 'movies:index' %}" class="btn btn-secondary">목록보기</a>
+
+{% if movies.user == request.user %}
+  <form action="{% url 'movies:update' movies.pk %}">
+    <a href="{% url 'movies:update' movies.pk %}" class="btn btn-info">수정하기</a>
+  </form>
+
+  <form action="{% url 'movies:delete' movies.pk %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="삭제하기" class="btn btn-danger">
+  </form>
+{% endif %}
+
+<hr>
+<h2 style="color: darkolivegreen;">좋아요 목록</h2>
+<p>좋아요 : {{ movies.like_users.count }}</p>
+{% with likers=movies.like_users.all %}
+  <p>좋아요 목록 :
+    {% for u in likers %}
+      {{ u }}
+    {% endfor %}
+  </p>
+  {% if user in likers %}
+    <a class="btn btn-warning" href="{% url 'movies:like' movies.pk %}">dislike</a>
+  {% else %}
+    <a class="btn btn-info" href="{% url 'movies:like' movies.pk %}">like</a>
+  {% endif %}
+{% endwith %}
+<hr>
+
+<h3>이 영화 한줄평</h3>
+{% if user.is_authenticated %}
+<form action="{% url 'movies:create_review' movies.pk %}" method="POST">
+  {% csrf_token %}
+  {% bootstrap_form review_form %}
+  <input type="submit" value="한줄평등록" class="btn btn-success">
+</form>
+{% endif %}
+<hr>
+  <p style="color: dodgerblue;"><i>전체 {{ reviews | length }}개의 한줄평을 확인해보세요</i></p>
+  {% for review in reviews %}
+    <p>{{ review.user}}: {{ review.content }} "제 점수는요? <span style="color: gold;">{{ review.score }}</span>점"</p>
+  {% empty %}
+    <p><i>아직 등록된 한줄평이 없는 영화입니다.</i></p>
+  {% endfor %}
+{% endblock %}

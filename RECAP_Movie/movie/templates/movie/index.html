@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load staticfiles %}
+
+{% block body %}
+  <div class="row">
+    <h1>영화 목록</h1>
+    <p>당신의 방문 횟수 : {{ visits }} </p>
+    <hr>
+    <h5>영화 정보 생성은 상단의 링크를 이용해주세요</h5>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">글번호</th>
+          <th scope="col">영화제목</th>
+          <th scope="col">관객평점</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for movie in movies %}
+        <tr>
+          <th scope="row">{{ movie.pk }}</th>
+          <td><a href="{% url 'movies:detail' movie.pk %}">{{ movie.title }}</a></td>
+          <td>{{ movie.score }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+    
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+<h1>영화 정보 수정하기</h1>
+<form action="{% url 'movies:update' movies.pk %}" method="POST">
+  {% csrf_token %}
+  {% bootstrap_form movie_form %}
+  <input type="submit" value="업데이트" class="btn btn-info">
+</form>
+{% endblock %}
