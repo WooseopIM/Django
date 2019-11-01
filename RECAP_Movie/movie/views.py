@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from .forms import MovieForm, ReviewForm
 from .models import Movie, Review
 from IPython import embed
@@ -118,14 +118,20 @@ def like(request, movie_pk):
     # if request.user in movie.like_users.all(): 비효율적인 방법
     if movie.like_users.filter(pk=user.pk).exists():
         movie.like_users.remove(user) # 좋아요 취소
-    else:
-        movie.like_users.add(user) # 좋아요 
-
+        liked = False
     # 그렇지 않으면
     # 해당 유저는 아직 좋아요를 하지 않았다
-    # request.user.like_articles.add(movie)
-    return redirect(movie)
-    # movie.like_users.add(request.user)
+    else:
+        movie.like_users.add(user) # 좋아요 
+        liked = True
+
+    context = {
+        'liked': liked,
+        'count': movie.like_users.count(),
+        'likeusers': list(movie.like_users.all().values_list('username', flat=True)),
+    }
+
+    return JsonResponse(context) # JsonResponse의 인자로는 딕셔너리가 온다. Python 딕셔너리를 Json으로 바꿔주는 함수
 
 def dislike(request, movie_pk):
     movie = Movie.objects.get(pk=movie_pk)

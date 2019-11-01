@@ -10,36 +10,44 @@
 <p><span>장르:</span> {{ movies.genre }}</p>
 <p><span>관림등급</span> {{ movies.watch_grade }}</p>
 <p><span>관객평점</span> {{ movies.score }}</p>
-<p><span>줄거리:</span></p><p>{{ movies.description }}</p>
+<p><span>줄거리:</span></p>
+<p>{{ movies.description }}</p>
 <p><span>작성자:</span>{{ movies.user }}</p>
 
 <a href="{% url 'movies:index' %}" class="btn btn-secondary">목록보기</a>
 
 {% if movies.user == request.user %}
-  <form action="{% url 'movies:update' movies.pk %}">
-    <a href="{% url 'movies:update' movies.pk %}" class="btn btn-info">수정하기</a>
-  </form>
+<form action="{% url 'movies:update' movies.pk %}">
+  <a href="{% url 'movies:update' movies.pk %}" class="btn btn-info">수정하기</a>
+</form>
 
-  <form action="{% url 'movies:delete' movies.pk %}" method="POST">
-    {% csrf_token %}
-    <input type="submit" value="삭제하기" class="btn btn-danger">
-  </form>
+<form action="{% url 'movies:delete' movies.pk %}" method="POST">
+  {% csrf_token %}
+  <input type="submit" value="삭제하기" class="btn btn-danger">
+</form>
 {% endif %}
 
 <hr>
-<h2 style="color: darkolivegreen;">좋아요 목록</h2>
-<p>좋아요 : {{ movies.like_users.count }}</p>
 {% with likers=movies.like_users.all %}
-  <p>좋아요 목록 :
-    {% for u in likers %}
-      {{ u }}
-    {% endfor %}
-  </p>
-  {% if user in likers %}
-    <a class="btn btn-warning" href="{% url 'movies:like' movies.pk %}">dislike</a>
-  {% else %}
-    <a class="btn btn-info" href="{% url 'movies:like' movies.pk %}">like</a>
-  {% endif %}
+<h2 style="color: darkolivegreen;">좋아요 목록</h2>
+<p>좋아요 : <span id="like-count">{{ movies.like_users.count }}</span> </p>
+<p>좋아한 사람들 : 
+    <span id="like-user">
+  {% for liker in likers %}
+    {{ liker }}
+  {% endfor %}
+</span>
+</p>
+
+
+{% if user in likers %}
+<button data-ssafy="나는싸피다" data-name="kahn" data-id="{{ movies.pk }}" class="btn btn-outline-primary"
+  id='like-button'>dislike</button>
+{% else %}
+<button data-ssafy="나는싸피다" data-name="kahn" data-id="{{ movies.pk }}" class="btn btn-primary"
+  id='like-button'>like</button>
+{% endif %}
+
 {% endwith %}
 <hr>
 
@@ -52,10 +60,47 @@
 </form>
 {% endif %}
 <hr>
-  <p style="color: dodgerblue;"><i>전체 {{ reviews | length }}개의 한줄평을 확인해보세요</i></p>
-  {% for review in reviews %}
-    <p>{{ review.user}}: {{ review.content }} "제 점수는요? <span style="color: gold;">{{ review.score }}</span>점"</p>
-  {% empty %}
-    <p><i>아직 등록된 한줄평이 없는 영화입니다.</i></p>
-  {% endfor %}
+<p style="color: dodgerblue;"><i>전체 {{ reviews | length }}개의 한줄평을 확인해보세요</i></p>
+{% for review in reviews %}
+<p>{{ review.user}}: {{ review.content }} "제 점수는요? <span style="color: gold;">{{ review.score }}</span>점"</p>
+{% empty %}
+<p><i>아직 등록된 한줄평이 없는 영화입니다.</i></p>
+{% endfor %}
+
+<script>
+  // 좋아요 버튼을 클릭하기 (addEventlistener를 통해 가능함)
+  const likeButton = document.querySelector('#like-button')
+  likeButton.addEventListener('click', function (e) { // 이벤트리스너에 넣는 경우에는 arrow function을 쓰지 말자. 원래 함수 쓰는 방법대로
+    // 좋아요 DB를 업데이트하고, 버튼을 바꾼다.
+    // DB 업데이트 == movie/<int:movie_pk>/like/ 요청을 보냄
+    const moviesID = e.target.dataset.id
+    axios.get(`/movies/${moviesID}/like/`)
+      .then(response => {
+        // console.log(response.data.liked) // 오호, 클릭하면 data의 liked 키가 true/false로 바뀐다.
+        console.log(response.data.likeusers)
+        const likeCount = document.querySelector('#like-count')
+        likeCount.innerText = response.data.count
+        const likeUser = document.querySelector('#like-user')
+        likeUser.innerText = ''
+        response.data.likeusers.forEach(likerName => {
+          likeUser.innerText += ` ${likerName}`
+        });
+        
+        // 좋아요 했으면 버튼을 '좋아요 취소(dislike)'로 변경
+        if (response.data.liked) {
+          // console.log(e.target.classList)
+          e.target.classList.remove('btn-primary')
+          e.target.classList.add('btn-outline-primary')
+          e.target.innerText = 'dislike'
+        // 좋아요 안했으면 버튼을 좋아요로 변경
+        } else {
+          e.target.classList.remove('btn-outline-primary')
+          e.target.classList.add('btn-primary')
+          e.target.innerText = 'like'
+        }
+      })
+
+  })
+</script>
+
 {% endblock %}
