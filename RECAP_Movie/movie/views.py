@@ -109,6 +109,7 @@ def send_cookie(reqeust):
     res.set_cookie('mycookie', 'Oreo') # python dictionary의 key:value 느낌으로 쿠키가 만들어짐
     return res
 
+@require_POST
 def like(request, movie_pk):
     # movie_pk 로 넘어온 글의 like_users에 현재 접속 중인 user를 추가한다.
     movie = Movie.objects.get(pk=movie_pk)
